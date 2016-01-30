@@ -1,49 +1,27 @@
-'use strict'
-
-var ngrok = require('ngrok');
+'use strict';
 
 module.exports = function(grunt) {
 
-  // Load grunt tasks
-  require('load-grunt-tasks')(grunt);
-
   // Grunt configuration
   grunt.initConfig({
-    pagespeed: {
+    htmlmin: {
       options: {
-        nokey: true,
-        locale: "en_GB",
-        threshold: 40
+        removeComments: true,
+        removeCommentsfromCDATA: true,
+        minifyCSS: true,
+        minifyJS: true,
+        minifyURLs: true,
       },
-      local: {
-        options: {
-          strategy: "desktop"
-        }
-      },
-      mobile: {
-        options: {
-          strategy: "mobile"
+      dist: {
+        files: {
+          'index.html': 'src/index.html'
         }
       }
     }
   });
 
-  // Register customer task for ngrok
-  grunt.registerTask('psi-ngrok', 'Run pagespeed with ngrok', function() {
-    var done = this.async();
-    var port = 8081;
-
-    ngrok.connect(port, function(err, url) {
-      if (err !== null) {
-        grunt.fail.fatal(err);
-        return done();
-      }
-      grunt.config.set('pagespeed.options.url', url);
-      grunt.task.run('pagespeed');
-      done();
-    });
-  });
+  grunt.loadNpmTasks('grunt-contrib-htmlmin');
 
   // Register default tasks
-  grunt.registerTask('default', ['psi-ngrok']);
+  grunt.registerTask('default', ['htmlmin']);
 }
