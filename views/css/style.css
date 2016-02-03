@@ -29,10 +29,41 @@ form {
   font-weight: 800;
 }
 
-.mover {
+// Changed to one class per set of random pizzas moving together
+
+.mover-1 {
   position: fixed;
   width: 256px;
   z-index: -1;
+  /*will-change:left;*/
+}
+
+.mover-2 {
+  position: fixed;
+  width: 256px;
+  z-index: -1;
+  /*will-change:left;*/
+}
+
+.mover-3 {
+  position: fixed;
+  width: 256px;
+  z-index: -1;
+  /*will-change:left;*/
+}
+
+.mover-4 {
+  position: fixed;
+  width: 256px;
+  z-index: -1;
+  /*will-change:left;*/
+}
+
+.mover-5 {
+  position: fixed;
+  width: 256px;
+  z-index: -1;
+  /*will-change:left;*/
 }
 
 .randomPizzaContainer {

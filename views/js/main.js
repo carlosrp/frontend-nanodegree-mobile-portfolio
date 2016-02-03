@@ -450,11 +450,28 @@ var resizePizzas = function(size) {
 
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+    switch(size) {
+      case "1":
+        newwidth = 25;
+        break;
+      case "2":
+        newwidth = 33.33;
+        break;
+      case "3":
+        newwidth = 50;
+        break;
+      default:
+        console.log("bug in sizeSwitcher");
     }
+    var elemList = document.querySelectorAll('.randomPizzaContainer');
+    Array.prototype.forEach.call(elemList, function(elem) {
+      elem.style.width = newwidth + '%';
+    });
+    // for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
+    //   var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
+    //   var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
+    //   document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+    // }
   }
 
   changePizzaSizes(size);
@@ -501,12 +518,27 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
+  var cols = 8;
+  var s = 256;
+  var phase, items;
 
-  var items = document.querySelectorAll('.mover');
-  for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+  var scrollPhase = document.body.scrollTop / 1250;
+  for (var n = 0; n < 5; n++) {
+    phase = Math.sin(scrollPhase + n);
+    items = document.querySelectorAll('.mover-' + (n+1).toString());
+    for (var i = 0; i < items.length; i++) {
+      // i * 5 + n is the sequence number of all pizzas; i is just
+      // the sequence withing this subset .mover-(i+1)
+      items[i].style.left = ((i * 5 + n) % cols) * s + 100 * phase + 'px';;
+    }
+
   }
+  // var items1 = document.querySelectorAll('.mover-1');
+  // for (var i = 0; i < items.length; i++) {
+  //   var phase = Math.sin(scrollPhase + (i % 5));
+  //   //items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+  //   items[i].style.left = (i % cols) * s + 100 * phase + 'px';
+  // }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
@@ -527,11 +559,27 @@ document.addEventListener('DOMContentLoaded', function() {
   var s = 256;
   for (var i = 0; i < 200; i++) {
     var elem = document.createElement('img');
-    elem.className = 'mover';
+    switch(i % 5)  {
+      case 0:
+        elem.className = 'mover-1';
+        break;
+      case 1:
+        elem.className = 'mover-2';
+        break;
+      case 2:
+        elem.className = 'mover-3';
+        break;
+      case 3:
+        elem.className = 'mover-4';
+        break;
+      case 4:
+        elem.className = 'mover-5';
+        break;
+    }
     elem.src = "images/pizza.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
-    elem.basicLeft = (i % cols) * s;
+    //elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.querySelector("#movingPizzas1").appendChild(elem);
   }
