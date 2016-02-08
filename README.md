@@ -14,10 +14,6 @@ Repository branch used is gh-pages, which makes the site accessible with Github 
 
 ####Part 2: Optimize Frames per Second in pizza.html
 
-1. 60 fps for scrolling with moving pizzas: this one is still a work in progress; after trying many options I can get it to between 50-60 fps (in the FPS meter, but when recording timelines it actually shows much worse times).
-
-The thing I don't like is that each single moving pizza has its own layer, so we end up with 200+ layers. This can't be good...
-
-Any suggestions here are welcome!
+1. 60 fps for scrolling with moving pizzas: this one is still a work in progress; after trying many options I can get it to between 50-60 fps (in the FPS meter, but when recording timelines it actually shows much worse times). The thing I don't like is that each single moving pizza has its own layer, so we end up with 200+ layers. This can't be good... Any suggestions here are welcome!
 
 2. Time to resize pizza < 5ms: replace use of determineDx function with much simpler and efficent code.
